@@ -1,0 +1,12 @@
+package com.mize.service;
+
+/**
+ * This is Marker Interface Classes which is ment to interact DAO Classes and
+ * User Client Classes Implements this Interface.
+ * 
+ * @author nagarjunakatta
+ * 
+ */
+public interface Service {
+
+}

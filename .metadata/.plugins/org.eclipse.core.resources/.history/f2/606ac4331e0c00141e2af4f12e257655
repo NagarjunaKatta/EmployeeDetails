@@ -1,0 +1,105 @@
+package com.mize.client;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.mize.dto.EmployeeDTO;
+import com.mize.service.EmployeeService;
+
+/**
+ * 
+ * @author nagarjunakatta
+ * 
+ */
+public class Client {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		ApplicationContext context = new ClassPathXmlApplicationContext("E:/github/employeedetails/Bean.xml");
+		// service service=(service)context.getBean("service");
+		EmployeeDTO empdto = (EmployeeDTO) context.getBean("employeeDTO");
+		EmployeeService service = (EmployeeService) context.getBean("service");
+
+		// __________________Get ALL Records__________________________________
+		System.out
+				.println("**************All Employee Records*****************");
+		List<EmployeeDTO> emplist = (List<EmployeeDTO>) service.getAll();
+		System.out.println("Total Employees = " + emplist.size());
+		for (EmployeeDTO list : emplist) {
+			System.out.println(list.getEmployeeID() + " "
+					+ list.getEmployeeName() + "  " + list.getDepartment()
+					+ " " + list.getSalary() + " " + list.getJoinDate());
+		}
+
+		// ____________________Get Avarage Salary of
+		// Employees____________________
+		System.out.println("______Average Salary of All Employees__   "
+				+ service.avarageSalary(emplist));
+
+		// __________________Get Employee By
+		// Id_____________________________________
+		System.out
+				.println("************** Employee Record By Id*****************");
+		EmployeeDTO empdtobyid = (EmployeeDTO) service.getEmployeeByID("1002");
+		System.out.println(empdtobyid.getEmployeeID() + "  "
+				+ empdtobyid.getEmployeeName() + "  "
+				+ empdtobyid.getDepartment() + "  " + empdtobyid.getSalary()
+				+ "  " + empdtobyid.getJoinDate());
+
+		// __________________Get Employees By
+		// Department____________________________
+		System.out
+				.println("************Employees By Department*******************");
+		String deptname = "java";
+		List<EmployeeDTO> employeeByDepartment = (List<EmployeeDTO>) service
+				.getEmployeeByDepartment(deptname);
+		List<EmployeeDTO> emplistdept = employeeByDepartment;
+		System.out.println("Employee List in " + deptname + "  department****"
+				+ "****Number of Employeees " + emplistdept.size());
+		for (EmployeeDTO list : emplistdept) {
+			System.out.println(list.getEmployeeID() + " "
+					+ list.getEmployeeName() + "  " + list.getDepartment()
+					+ " " + list.getSalary() + " " + list.getJoinDate());
+		}
+
+		// ________________Update
+		// Employee________________________________________
+		empdto.setEmployeeID("1001");
+		empdto.setEmployeeName("Nag");
+		empdto.setDepartment("java");
+		empdto.setSalary(30000);
+		empdto.setJoinDate("2014-04-10");
+		System.out.println(service.updateEmployee(empdto) + " Records Updated");
+
+		// _______________________Insert
+		// Employee______________________________________
+		/*empdto.setEmployeeID("1001");
+		empdto.setEmployeeName("Nag");
+		empdto.setDepartment("java");
+		empdto.setSalary(50000);
+		empdto.setJoinDate("2011-04-10");
+		System.out
+				.println(service.insertEmployee(empdto) + "  Record inserted");
+*/
+		// _________________Delete All Records__________________________________
+		// System.out.println(service.deleteAll()+"  Records Deleted");
+		// __________________Delete Employee By
+		// ID________________________________
+		// System.out.println(service.deleteEmployeeById(1001)+" Record Deleted");
+
+		// _________________Get Avarage Salary of
+		// Department______________________
+		String dept = "java";
+		System.out.println("Average Salary for " + dept + " department = "
+				+ service.avarageSalary(dept));
+		System.out.println(service.getAvarageSalaryByDepartment());
+
+	}
+
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://23.23.109.69/training" />
+		<property name="username" value="fresh_training" />
+		<property name="password" value="fresh_training123" />
+	</bean>
+	
+	<bean id="service" class="com.mize.service.EmployeeService"
+		autowire="byType" />
+	
+	<bean id="employeeDAO" class="com.mize.dao.EmployeeDAO" autowire="byType">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="queries">
+			<value>
+				getAllRecords=select * from employee_k
+				deleteAllRecords=delete from employee_k
+				getEmployeeById=select * from employee_k where empid=?
+				getEmpbyDept=select * from employee_k where deptid=?
+				updateEmployee=update employee_k set empname=?,deptid=?,salary=?,joindate=? where empid=?
+				insertEmp=insert into employee_k values(?,?,?,?,?)
+				deleteEmpbyId=delete from employee_k where empid=?
+			</value>
+		</property>
+	</bean>
+	<bean id="employeeDTO" class="com.mize.dto.EmployeeDTO" autowire="byType" />
+
+
+</beans>
